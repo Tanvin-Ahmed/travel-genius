@@ -13,6 +13,9 @@ import {
 } from "../components/ui/form";
 import { Button } from "../components/ui/button";
 import { Option } from "react-google-places-autocomplete/build/types";
+import { Input } from "../components/ui/input";
+import { SelectBudgetOptions } from "../constant/options";
+import BudgetOptionCard from "../components/custom/create-trip/budget-card";
 
 const optionSchema = z.object({
   label: z.string(),
@@ -23,6 +26,10 @@ const formSchema = z.object({
   location: optionSchema.refine((val) => val !== null, {
     message: "Location must be selected.",
   }),
+  day: z.number({
+    message: "Please select how many days you want to fixed for trip.",
+  }),
+  budget: z.number({ message: "Please select your budget range." }),
 });
 
 const CreateTripPage = () => {
@@ -67,6 +74,41 @@ const CreateTripPage = () => {
                         }}
                       />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="day"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      How many days are you planning your trip?
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex.3" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="budget"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What is your budget?</FormLabel>
+                    <div className="grid sm:grid-cols-3 grid-cols-2 gap-4">
+                      {SelectBudgetOptions.map((option) => (
+                        <BudgetOptionCard
+                          key={option.id}
+                          {...option}
+                          onOptionChange={field.onChange}
+                          value={field.value}
+                        />
+                      ))}
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

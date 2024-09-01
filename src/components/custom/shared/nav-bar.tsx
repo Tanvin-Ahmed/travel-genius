@@ -16,7 +16,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="w-full sticky top-0 z-50 dark:backdrop-blur-sm bg-orange-900/20">
+    <header className="w-full sticky top-0 z-50 backdrop-blur-sm bg-orange-900/20">
       <nav className="container mx-auto p-2 flex justify-between items-center">
         <div onClick={() => navigate("/")} className="flex items-center gap-2">
           <CustomAvatar src="./logo.png" alt="SH" />

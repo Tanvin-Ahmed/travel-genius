@@ -1,0 +1,7 @@
+.css-13cymwt-control,
+.css-t3ipsp-control {
+  @apply !bg-transparent hover:!border-primary focus:!border-primary;
+}
+.css-1nmdiq5-menu {
+  @apply dark:!backdrop-blur-sm dark:bg-orange-500/10;
+}
