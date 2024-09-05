@@ -30,6 +30,7 @@ const Loadable = <P extends LoadableProps>(Component: ComponentType<P>) => {
 
 const App = Loadable(lazy(() => import("../../App")));
 const HomePage = Loadable(lazy(() => import("../../pages/home-page")));
+const AuthPage = Loadable(lazy(() => import("../../pages/auth")));
 const CreateTripPage = Loadable(lazy(() => import("../../pages/create-trip")));
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/login",
+        element: <AuthPage />,
       },
       {
         path: "/create-trip",

@@ -4,32 +4,35 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { motion } from "framer-motion";
 
 type Props = {
-  id: string;
+  id: number;
   title: string;
   description: string;
   icon: string;
+  people?: string;
   onOptionChange: (event: number) => void;
   value: number;
 };
 
-const BudgetOptionCard = ({
+const SelectOptionCard = ({
   title,
   description,
   icon,
   onOptionChange,
   id,
   value,
+  people,
 }: Props) => {
   const { animationRef, maskImageStyle } = useBorderAnimation();
 
   return (
     <Card
-      onClick={() => onOptionChange(Number(id))}
+      onClick={() => onOptionChange(id)}
       className={cn(
         "relative duration-300 cursor-pointer h-full w-full dark:bg-orange-900/20 bg-orange-50 rounded border-2",
         {
-          "border-orange-400 dark:border-orange-600": value === Number(id),
-          "border-orange-200 dark:border-orange-950": value !== Number(id),
+          "border-orange-400 bg-orange-300 dark:border-orange-600 dark:bg-orange-500":
+            value === id,
+          "border-orange-200 dark:border-orange-950": value !== id,
         }
       )}
     >
@@ -48,9 +51,10 @@ const BudgetOptionCard = ({
       </CardHeader>
       <CardContent>
         <p className="text-sm">{description}</p>
+        {people ? <small>{people}</small> : null}
       </CardContent>
     </Card>
   );
 };
 
-export default BudgetOptionCard;
+export default SelectOptionCard;
