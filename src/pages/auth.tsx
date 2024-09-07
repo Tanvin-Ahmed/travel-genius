@@ -1,11 +1,20 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { singInWithGoogle } from "../firebase/google-auth";
 import useLoader from "../hook/use-loader";
 import { useToast } from "../hooks/use-toast";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth-context";
 
 const Auth = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
   const { isLoading, setIsLoading, Loader } = useLoader();
+
+  const { login } = useContext(AuthContext);
+
+  const from = location.state?.from?.pathname || "/";
 
   const handleSingIn = async () => {
     try {
@@ -13,12 +22,12 @@ const Auth = () => {
 
       const userData = await singInWithGoogle();
 
-      // store token in local storage
-      localStorage.setItem("auth-token", JSON.stringify(userData.token));
+      login(userData);
       toast({
         title: "Success! 🎉",
         description: "Welcome to Travel Genius!",
       });
+      navigate(from);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorCode = error.code;

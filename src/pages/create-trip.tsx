@@ -21,6 +21,11 @@ import {
 import SelectOptionCard from "../components/custom/create-trip/select-option-card";
 import { chatSession, prompt } from "../service/AIModel";
 import useLoader from "../hook/use-loader";
+import { AIResponse } from "../types";
+import { saveTrip } from "../firebase/db-action";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth-context";
+import { useToast } from "../hooks/use-toast";
 
 const optionSchema = z.object({
   label: z.string(),
@@ -38,10 +43,14 @@ const formSchema = z.object({
   traveler: z.number({ message: "Please select your travel partner." }),
 });
 
+export type CreateTripUserInput = z.infer<typeof formSchema>;
+
 const CreateTripPage = () => {
+  const { toast } = useToast();
+  const { user } = useContext(AuthContext);
   const { Loader, isLoading, setIsLoading } = useLoader();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<CreateTripUserInput>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       budget: 1,
@@ -49,7 +58,7 @@ const CreateTripPage = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: CreateTripUserInput) => {
     try {
       setIsLoading(true);
 
@@ -76,9 +85,23 @@ const CreateTripPage = () => {
 
       const result = await chatSession.sendMessage(FINAL_PROMPT);
 
-      console.log(result.response.text());
+      const text = result.response.text();
+
+      if (!text.trim()) {
+        throw new Error("No response coming form AI!");
+      }
+
+      const response = JSON.parse(text) as AIResponse;
+
+      if (user?.email) await saveTrip(response, user.email, values);
+      else throw new Error("User email is required!");
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error!",
+        description: "Something went wrong. Please try again",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }

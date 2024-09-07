@@ -3,6 +3,7 @@ import ErrorBoundary from "../custom/shared/error-boundary";
 
 import { ComponentType, lazy, Suspense } from "react";
 import useLoader from "../../hook/use-loader";
+import PrivateRoute from "./private-route";
 
 type LoadableProps = {
   [key: string]: unknown;
@@ -49,7 +50,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/create-trip",
-        element: <CreateTripPage />,
+        element: (
+          <PrivateRoute>
+            <CreateTripPage />
+          </PrivateRoute>
+        ),
       },
     ],
   },
