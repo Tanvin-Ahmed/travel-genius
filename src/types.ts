@@ -56,3 +56,18 @@ export type Trip = {
   userSelection: CreateTripUserInput;
   email: string;
 };
+
+export type GoogleImgResponse = {
+  places: {
+    id: string;
+    displayName: {
+      text: string;
+      languageCode: string;
+    };
+    photos: {
+      heightPx: number;
+      widthPx: number;
+      name: string;
+    }[];
+  }[];
+};
