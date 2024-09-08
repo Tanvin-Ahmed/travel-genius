@@ -1,4 +1,12 @@
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  query,
+  collection,
+  where,
+} from "firebase/firestore";
 import { AIResponse, Trip } from "../types";
 import { db } from "./config";
 import { CreateTripUserInput } from "../pages/create-trip";
@@ -30,4 +38,13 @@ export const getSingleTrip = async (id: string) => {
   } else {
     return null;
   }
+};
+
+export const getAllTrips = async (email: string) => {
+  const data: Trip[] = [];
+  const q = query(collection(db, "AiTrips"), where("email", "==", email));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((snapShot) => data.push(snapShot.data() as Trip));
+
+  return data;
 };

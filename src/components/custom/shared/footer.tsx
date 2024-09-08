@@ -10,7 +10,7 @@ import logo from "../../../assets/logo.png";
 const Footer = () => {
   const navigate = useNavigate();
   return (
-    <footer className="bg-orange-50 mt-20">
+    <footer className="bg-orange-50 dark:bg-orange-900/10 mt-20">
       <div className="container mx-auto p-4">
         <div className="flex flex-col justify-center items-center gap-4">
           <div
