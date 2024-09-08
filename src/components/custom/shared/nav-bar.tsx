@@ -1,11 +1,9 @@
-import { Menu } from "lucide-react";
 import { Button } from "../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import CustomAvatar from "../../custom/shared/custom-avatar";
@@ -14,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/auth-context";
 import logo from "../../../assets/logo.png";
+import { GalleryVerticalEnd, LogIn, LogOut } from "lucide-react";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -27,56 +26,78 @@ const Navbar = () => {
           className="flex items-center gap-2 cursor-pointer"
         >
           <CustomAvatar src={logo} alt="SH" />
-          <h1 className="font-bold sm:text-2xl text-xl">
+          <h1 className="font-bold sm:text-2xl sm:block hidden">
             <span className="text-primary">Travel</span> Genius
+          </h1>
+          <h1 className="font-bold text-2xl sm:hidden block">
+            <span className="text-primary">T</span>G
           </h1>
         </div>
         <div className="flex justify-center items-center gap-3">
           {/* for large screen */}
-          <div className="sm:flex hidden justify-center items-center gap-2">
+          <div className="flex justify-center items-center gap-2">
             {user?.token || user?.email ? (
-              <Button
-                onClick={() => {
-                  logout();
-                  navigate("/");
-                }}
-              >
-                Logout
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size={"icon"}
+                    className="rounded-full p-0 flex justify-center items-center"
+                  >
+                    {user.photoURL && (
+                      <img
+                        src={user.photoURL}
+                        className="block rounded-full h-8 w-8 object-cover"
+                        alt=""
+                      />
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem>
+                      <Button
+                        className="w-full flex justify-start gap-2"
+                        variant={"ghost"}
+                        onClick={() => navigate("/trips")}
+                      >
+                        <GalleryVerticalEnd className="h-5 w-5" />
+                        Trip history
+                      </Button>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Button
+                        className="w-full flex justify-start gap-2"
+                        variant={"destructive"}
+                        onClick={() => {
+                          logout();
+                          navigate("/");
+                        }}
+                      >
+                        <LogOut className="h-5 w-5" /> Logout
+                      </Button>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
-              <Button onClick={() => navigate("/login")}>Login</Button>
+              <>
+                <Button
+                  className="sm:block hidden"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </Button>
+                <Button
+                  className="flex sm:hidden justify-center items-center"
+                  size={"icon"}
+                  onClick={() => navigate("/login")}
+                >
+                  <LogIn />
+                </Button>
+              </>
             )}
             <ModeToggle />
-          </div>
-          {/* for small device */}
-          <div className="sm:hidden block">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline">
-                  <Menu />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <a href={"/sign-in"} className="w-full">
-                      <Button className="w-full">Sign In</Button>
-                    </a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <a href={"/sign-up"} className="w-full">
-                      <Button className="w-full" variant={"outline"}>
-                        Sing Up
-                      </Button>
-                    </a>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <ModeToggle />
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
         </div>
       </nav>

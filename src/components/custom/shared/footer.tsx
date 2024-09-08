@@ -1,18 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Dock, DockIcon } from "../../magicui/dock";
 import CustomAvatar from "./custom-avatar";
 import github from "../../../assets/social/github.svg";
 import linkedin from "../../../assets/social/linkedin.svg";
 import facebook from "../../../assets/social/facebook.svg";
 import portfolio from "../../../assets/social/portfolio.png";
+import logo from "../../../assets/logo.png";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <footer className="bg-orange-50 mt-20">
       <div className="container mx-auto p-4">
         <div className="flex flex-col justify-center items-center gap-4">
+          <div
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 cursor-pointer"
+          >
+            <CustomAvatar src={logo} alt="SH" />
+            <h1 className="font-bold sm:text-2xl text-xl">
+              <span className="text-primary">Travel</span> Genius
+            </h1>
+          </div>
           <div className="flex flex-col justify-center items-center gap-2">
-            <h1 className="text-2xl md:text-3xl font-bold">Follow</h1>
+            <h1 className="text-lg sm:text-xl font-bold">Follow</h1>
             <div className="relative -mt-10">
               <Dock direction="middle">
                 <DockIcon>
