@@ -26,6 +26,7 @@ import { saveTrip } from "../firebase/db-action";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth-context";
 import { useToast } from "../hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const optionSchema = z.object({
   label: z.string(),
@@ -46,6 +47,7 @@ const formSchema = z.object({
 export type CreateTripUserInput = z.infer<typeof formSchema>;
 
 const CreateTripPage = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useContext(AuthContext);
   const { Loader, isLoading, setIsLoading } = useLoader();
@@ -93,8 +95,12 @@ const CreateTripPage = () => {
 
       const response = JSON.parse(text) as AIResponse;
 
-      if (user?.email) await saveTrip(response, user.email, values);
-      else throw new Error("User email is required!");
+      if (user?.email) {
+        const docId = await saveTrip(response, user.email, values);
+        navigate(`/trips/${docId}`);
+      } else {
+        throw new Error("User email is required!");
+      }
     } catch (error) {
       console.log(error);
       toast({

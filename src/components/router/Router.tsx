@@ -1,9 +1,10 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import ErrorBoundary from "../custom/shared/error-boundary";
 
 import { ComponentType, lazy, Suspense } from "react";
 import useLoader from "../../hook/use-loader";
 import PrivateRoute from "./private-route";
+import { getSingleTrip } from "../../firebase/db-action";
 
 type LoadableProps = {
   [key: string]: unknown;
@@ -33,6 +34,10 @@ const App = Loadable(lazy(() => import("../../App")));
 const HomePage = Loadable(lazy(() => import("../../pages/home-page")));
 const AuthPage = Loadable(lazy(() => import("../../pages/auth")));
 const CreateTripPage = Loadable(lazy(() => import("../../pages/create-trip")));
+const TripsPage = Loadable(lazy(() => import("../../pages/trips")));
+const TripDetailsPage = Loadable(
+  lazy(() => import("../../pages/trip-details"))
+);
 
 const router = createBrowserRouter([
   {
@@ -45,16 +50,35 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <AuthPage />,
       },
       {
-        path: "/create-trip",
+        path: "create-trip",
         element: (
           <PrivateRoute>
             <CreateTripPage />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "trips",
+        element: (
+          <PrivateRoute>
+            <Outlet />
+          </PrivateRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: <TripsPage />,
+          },
+          {
+            path: ":id",
+            element: <TripDetailsPage />,
+            loader: async ({ params }) => await getSingleTrip(params.id!),
+          },
+        ],
       },
     ],
   },

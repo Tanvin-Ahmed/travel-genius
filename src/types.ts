@@ -1,3 +1,5 @@
+import { CreateTripUserInput } from "./pages/create-trip";
+
 export type User = {
   uid: string;
   displayName: string | null;
@@ -6,7 +8,7 @@ export type User = {
   token: string | undefined;
 };
 
-type Hotel = {
+export type Hotel = {
   hotelName?: string;
   hotelAddress?: string;
   price?: string;
@@ -22,7 +24,7 @@ type Transport = {
   time?: string;
 };
 
-type Place = {
+export type Place = {
   placeName?: string;
   placeDetails?: string;
   placeImageUrl?: string;
@@ -46,4 +48,11 @@ type Itinerary = {
 export type AIResponse = {
   hotels?: Hotel[];
   itinerary?: Itinerary;
+};
+
+export type Trip = {
+  id: string;
+  tripData: AIResponse;
+  userSelection: CreateTripUserInput;
+  email: string;
 };

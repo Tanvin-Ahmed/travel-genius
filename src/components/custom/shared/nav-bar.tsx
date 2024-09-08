@@ -13,6 +13,7 @@ import { ModeToggle } from "../../ui/mode-toggle";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/auth-context";
+import logo from "../../../assets/logo.png";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -25,7 +26,7 @@ const Navbar = () => {
           onClick={() => navigate("/")}
           className="flex items-center gap-2 cursor-pointer"
         >
-          <CustomAvatar src="./logo.png" alt="SH" />
+          <CustomAvatar src={logo} alt="SH" />
           <h1 className="font-bold sm:text-2xl text-xl">
             <span className="text-primary">Travel</span> Genius
           </h1>
