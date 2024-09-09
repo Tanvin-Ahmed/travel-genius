@@ -27,6 +27,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/auth-context";
 import { useToast } from "../hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { correctJsonSyntax } from "../utils/JSON-syntax-correction";
 
 const optionSchema = z.object({
   label: z.string(),
@@ -93,7 +94,11 @@ const CreateTripPage = () => {
         throw new Error("No response coming form AI!");
       }
 
-      const response = JSON.parse(text) as AIResponse;
+      const CorrectJsonString = correctJsonSyntax(text.trim());
+
+      if (!CorrectJsonString) throw new Error("Invalid JSON string!");
+
+      const response = JSON.parse(CorrectJsonString) as AIResponse;
 
       if (user?.email) {
         const docId = await saveTrip(response, user.email, values);
@@ -101,11 +106,12 @@ const CreateTripPage = () => {
       } else {
         throw new Error("User email is required!");
       }
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.log(error);
       toast({
         title: "Error!",
-        description: "Something went wrong. Please try again",
+        description: error?.message,
         variant: "destructive",
       });
     } finally {
