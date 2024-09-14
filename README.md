@@ -1,51 +1,24 @@
-# React + TypeScript + Vite
+# Travel Genius! ✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Travel Genius is an AI-powered web application designed to make trip planning a breeze. 🗺️ Whether you're looking to explore a new city or plan a weekend getaway, Travel Genius helps you create an optimized and efficient travel plan tailored to your needs. Just input your destination, duration, budget, and the number of travelers, and let the AI do the rest! 🎒✨
 
-Currently, two official plugins are available:
+## Key Features:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔑 Google sign-in for quick and easy access.
+- 🗺️ Detailed travel roadmaps based on your preferences.
+- 💾 Roadmaps stored in Firestore for easy access anytime.
+- 📸 Find places and view stunning photos with Google API.
+- 🏨 Get suggestions for hotels, places to visit, and even transport costs.
+- 📍 View all locations directly in Google Maps from the app.
 
-## Expanding the ESLint configuration
+## Technologies Used:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React.JS
+- Firebase
+- Firestore
+- Google API
+- Gemini
 
-- Configure the top-level `parserOptions` property like this:
+I'm excited to see how Travel Genius can help make your travel planning smoother and smarter! 🚗🛫
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
-# travel-genius
+- [Live link](https://travel-genius-ai.web.app/)
